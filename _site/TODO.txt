@@ -1,8 +1,0 @@
-- Give blog posts a title and date and line divider between them.
-  and a link to the article itself.. 
-- Limit number of blog posts, but with infinite scroll sexyness.
-- Single article blog page
-- Left hand panel needs way to explore blog posts
-- Projects panel needs some content
-- scroll to top button?
-- updating hash tag on URL as you scroll?
