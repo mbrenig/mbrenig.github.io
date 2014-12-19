@@ -7,6 +7,7 @@ float mouseEndX;
 float mouseEndY;
 int MOUSE_RESOLUTION = 10;
 int BUCKET_MS = 50;
+int RUN_IN_TIME = 1000;
 color START_COLOR = color(200,200,0);
 color END_COLOR = color(255,0,0);
 ArrayList calls;
@@ -25,7 +26,7 @@ int bucketize(float time) {
 
 void setup() {
   size(1280, 720);
-  frameRate(60);
+  frameRate(45);
   bg = loadImage("black-world-map.jpg");
   calls = new ArrayList();
 }
@@ -36,17 +37,19 @@ void draw() {
   float time = millis();
   float curBucket = bucketize(time);
   text(""+int(frameRate)+"fps "+calls.size(), 5,15);
-  if (time < 5000) {
+  if (time < RUN_IN_TIME) {
     return;
   }
   if (curBucket != lastBucket) {
       lastBucket = curBucket;
-      for (int ix = int(random(0,8.0)); ix >= 0; ix--) {
-        startPop = int(sqrt(random(0,16.0)));
-        endPop = (1+int(sqrt(random(0,16.0))))%4;
-        calls.add(new PhoneCall(millis(), startPop, endPop));
-        spoints[startPop] += 1;
-        epoints[endPop] += 1;
+      if (calls.size() < 200) {
+        for (int ix = int(random(0,8.0)); ix >= 0; ix--) {
+          startPop = int(sqrt(random(0,16.0)));
+          endPop = (1+int(sqrt(random(0,16.0))))%4;
+          calls.add(new PhoneCall(millis(), startPop, endPop));
+          spoints[startPop] += 1;
+          epoints[endPop] += 1;
+        }
       }
   }
   
@@ -99,6 +102,7 @@ class PhoneCall {
     sy = popYs[startPop];
     ex = popXs[endPop];
     ey = popYs[endPop];
+    MAX_DRAWS = int(160.0*frameRate/60.0);
     if (sx==ex && sy ==ey) {
       bezSx = -40.0-random(0,20.0);
       bezEx = 40.0+random(0,20.0);
